@@ -2,5 +2,5 @@ streamlit
 wikipedia
 wolframalpha
 pyttsx3
-speech_recognition as sr
+SpeechRecognition
 pyaudio
