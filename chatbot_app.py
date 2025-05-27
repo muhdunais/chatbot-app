@@ -3,15 +3,20 @@
 import streamlit as st
 import wikipedia
 import wolframalpha
-import pyttsx3
+from gtts import gTTS
 import speech_recognition as sr
+import tempfile
 import os
 
-# === Initialize TTS Engine ===
+# === TTS Function using gTTS ===
 def SpeakText(command):
-    engine = pyttsx3.init()
-    engine.say(command)
-    engine.runAndWait()
+    try:
+        tts = gTTS(text=command, lang='en')
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".mp3") as fp:
+            tts.save(fp.name)
+            st.audio(fp.name)
+    except Exception as e:
+        st.warning("Audio playback failed.")
 
 # === Search Function ===
 def search(query, app_id):
@@ -49,7 +54,7 @@ def listen_voice():
 
 # === Streamlit UI ===
 st.title("🤖 Voice/Text Intelligent Search Assistant")
-st.markdown("Developers: Shaheel, Ashiqu, Hunais | Data Science @iPECsolutions.com")
+st.markdown("*Developers:* Shaheel, Ashiqu, Hunais | Data Science @iPECsolutions.com")
 
 st.markdown("Enter your query below or use your voice:")
 
@@ -71,6 +76,9 @@ if st.button("🔍 Search"):
     if not app_id:
         st.warning("Please enter your WolframAlpha App ID.")
     elif query.strip() == "":
+        st.warning("Please provide a query.")
+    else:
+        search(query.lower(), app_id)
         st.warning("Please provide a query.")
     else:
         search(query.lower(), app_id)
