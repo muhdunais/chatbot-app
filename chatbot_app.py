@@ -1,4 +1,4 @@
-# streamlit_app.py
+# chatbot_app.py
 
 import streamlit as st
 import wikipedia
@@ -76,9 +76,6 @@ if st.button("🔍 Search"):
     if not app_id:
         st.warning("Please enter your WolframAlpha App ID.")
     elif query.strip() == "":
-        st.warning("Please provide a query.")
-    else:
-        search(query.lower(), app_id)
         st.warning("Please provide a query.")
     else:
         search(query.lower(), app_id)
